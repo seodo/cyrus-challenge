@@ -1,3 +1,5 @@
+require 'pry'
+
 class FileParser
 
 	Text_files = ["comma.txt", "pipe.txt", "space.txt"]
@@ -5,19 +7,21 @@ class FileParser
 
 	def initialize
 		self.final_list = []
-		get_file
+		# get_file
+	    # pretty_list
 	end
 
-	def get_file
-		Text_files.each{|text_file| get_lines(text_file)}
-	end
+	# def get_file
+	# 	Text_files.each{|text_file| get_lines(text_file)}
+	# end
 
-	def get_lines(text_file)
-		File.foreach("testfiles/"+text_file) { |line| parse_content(text_file, line)}
-	end
+	# def get_lines(text_file)
+	# 	File.foreach("testfiles/"+text_file) { |line| parse_content(text_file, line)}
+	# end
 
 
-	def parse_content(text_file, line)
+	def parse_content(text_file)
+		File.foreach("testfiles/"+text_file) do |line|
 		if text_file == "comma.txt"
 			modified_content = line.gsub(/\n/, "").split(",\s")
 		
@@ -52,39 +56,44 @@ class FileParser
 			}
 			@final_list << person
 		end
+		
+	end
+	
 	end
 
-
+end
 
 def gender_sorted
   puts "\nOutput 1: \n"
   sorted_list = @final_list.sort_by{|person| [person[:gender], person[:lastname]]}
+  sorted_list.each{|person| print person.values.join(" "), "\n"}
+  print "\n"
 end
 
 def birthday_sorted
 	puts "\nOutput 2: \n"
 	sorted_list = @final_list.sort_by{|person| [person[:birthday][-4..-1], person[:lastname]]}
+	sorted_list.each{|person| print person.values.join(" "), "\n"}
 end
 
 def lastname_sorted
 	puts "\nOutput 3: \n"
 	sorted_list = @final_list.sort_by{|person| person[:lastname]}.reverse
+	sorted_list.each{|person| print person.values.join(" "), "\n"}
 end
-
-
-def outputting(sorted_list)
-	sorted_list.each{|hash| print hash.values.join(" "), "\n"}
-end
-
 
 def pretty_list
-	outputting(gender_sorted)
-	outputting(birthday_sorted)
-	outputting(lastname_sorted)
+	gender_sorted
+	birthday_sorted
+	lastname_sorted
 end
 
-end
+# print_all
 
-
+reader = FileParser.new
+list = reader.parse_content("comma.txt")
+# binding.pry
+p reader.final_list
+# puts list.class
 
 
