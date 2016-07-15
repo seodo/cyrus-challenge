@@ -6,7 +6,7 @@ class FileParser
 	def initialize
 		self.final_list = []
 		get_file
-		pretty_list
+	    pretty_list
 	end
 
 	def get_file
